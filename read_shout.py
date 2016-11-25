@@ -35,11 +35,14 @@ values = {'rmode': 'fill', 'userid':conf_uid}
 headers = { 'User-Agent' : user_agent,
             'Cookie': 'uid=' + conf_uid + '; pass=' + conf_pass + '; passhash=' + conf_passhash + ';'}
 c = httplib.HTTPSConnection("ast4u.me")
+
 if options.debug:
     c.set_debuglevel(1)
+
 values['ts'] = str(timestamp)
-c.request("GET", "/shoutbox.ajax.load.php?"+urllib.urlencode(values), "", headers)
+c.request("GET", "/shoutbox.ajax.load.php?" + urllib.urlencode(values), "", headers)
 response = c.getresponse()
+
 collect = {}
 if (response.status == 200):
     raw_data = response.read()
@@ -47,7 +50,8 @@ if (response.status == 200):
     for msg in json_data['messages']:
         if msg['username'] == 'Waschbaer':
             collect[int(msg['mid'])] = msg['text_message']
+
 print(json_data['timestamp'])
 for key, text in sorted(collect.items(), reverse=True):
-    print text
+    print(text)
 
