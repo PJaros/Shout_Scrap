@@ -7,6 +7,7 @@ This is an invite-only website, but the code might still serve as an example how
 
 Usage example:
 
+```
 $ ./read_shout.py --help
 Usage: read_shout.py [-t timestamp]
 
@@ -25,3 +26,4 @@ Cool!  Es wurde ein Torrent hochgeladen: L....MP3.DL.BluRay.xvid-AST4u
 Cool!  Es wurde ein Torrent hochgeladen: L....AC3.DL.720p.BluRay.x264-AST4u
 Cool!  Es wurde ein Torrent hochgeladen: L....AC3.DL.1080p.BluRay.x264-AST4u
 Cool!  Es wurde ein Torrent hochgeladen: L....DTS.DL.1080p.BluRay.x264-AST4u
+```
