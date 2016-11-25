@@ -1,4 +1,5 @@
-# You need to scrap your values from ast4u.me
+# You need to scrap your own authorization values from ast4u.me and fill them here
+
 uid=12345
 pass=0123456789abcdef0123456789abcdef
 passhash=0123456789abcdef0123456789abcdef

@@ -6,6 +6,21 @@ import os
 import ConfigParser
 import StringIO
 import json
+import optparse
+import time
+
+description = "Ast4u.me Shoutbox Scrapper."
+usage = "usage: %prog [-t timestamp]"
+parser = optparse.OptionParser(description=description, usage=usage)
+parser.add_option("-t", "--timestamp", dest="timestamp",
+                  help="set specific unix timestamp since when messages should be returned. Defaults to current time.", type="int")
+parser.add_option("-d", "--debug", dest="debug")
+
+(options, args) = parser.parse_args()
+if options.timestamp:
+    timestamp = options.timestamp
+else:
+    timestamp = int(time.time())
 
 conf_str = "[dummy]\n" + open(os.path.join(os.curdir,"read_shout.conf")).read()
 conf_fp = StringIO.StringIO(conf_str)
@@ -17,11 +32,12 @@ conf_passhash = config.get('dummy', 'passhash')
 
 user_agent = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.63 Safari/537.36'
 values = {'rmode': 'fill', 'userid':conf_uid}
-headers = { 'User-Agent' : user_agent, 
+headers = { 'User-Agent' : user_agent,
             'Cookie': 'uid=' + conf_uid + '; pass=' + conf_pass + '; passhash=' + conf_passhash + ';'}
 c = httplib.HTTPSConnection("ast4u.me")
-#c.set_debuglevel(1)
-values['ts'] = str(1480001354)
+if options.debug:
+    c.set_debuglevel(1)
+values['ts'] = str(timestamp)
 c.request("GET", "/shoutbox.ajax.load.php?"+urllib.urlencode(values), "", headers)
 response = c.getresponse()
 collect = {}
@@ -34,6 +50,4 @@ if (response.status == 200):
 print(json_data['timestamp'])
 for key, text in sorted(collect.items(), reverse=True):
     print text
-    # print json_data
-# print response.status, response.reason
-# print raw_data
+
